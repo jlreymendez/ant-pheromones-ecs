@@ -24,18 +24,13 @@ namespace AntPheromones.Obstacles.Systems
         {
             var gameConversionSettings = GameObjectConversionSettings.FromWorld(World, null);
             var entityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(prefab, gameConversionSettings);
-            var random = new Random(config.Seed);
 
-            var obstacleRings = config.ObstacleRingsCount;
-            var obstaclesPerRing = config.ObstaclesPerRing;
             var mapSize = config.MapSize;
-            var bucketResolution = config.BucketResolution;
 
             var radius = EntityManager.GetComponentData<Radius>(entityPrefab).Value;
             var colony = EntityManager.Instantiate(entityPrefab);
             EntityManager.SetComponentData(colony, new Translation { Value = new float3(1, 1, 0) * 0.5f });
             EntityManager.AddComponentData(colony, new NonUniformScale {Value = new float3(1, 1, .1f) * radius / mapSize});
-
 
             Enabled = false;
         }
