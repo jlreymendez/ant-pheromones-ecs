@@ -23,6 +23,18 @@ MonoBehaviour:
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
+  - m_GUID: c3e26dabfd4552a4b8bd1c19232d5e50
+    m_Address: SimulationConfig
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: ebe375d13938dde489abb985f8e43cc3
+    m_Address: ColonyPrefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 827ce2cf900f6e64bb4b24405b81ca2f, type: 2}
   m_SchemaSet:
