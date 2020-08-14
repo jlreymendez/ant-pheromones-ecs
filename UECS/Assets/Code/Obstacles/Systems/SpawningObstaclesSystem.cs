@@ -63,6 +63,8 @@ namespace AntPheromones.Obstacles.Systems
                     }
                 }
             }
+
+            Enabled = false;
         }
 
         protected override void OnUpdate() { }
