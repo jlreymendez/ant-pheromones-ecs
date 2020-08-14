@@ -1,11 +1,11 @@
 ﻿using AntPheromones.Common;
 using AntPheromones.Data;
+using AntPheromones.Food;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using Random = Unity.Mathematics.Random;
 using Task = System.Threading.Tasks.Task;
 
 namespace AntPheromones.Obstacles.Systems
@@ -30,7 +30,8 @@ namespace AntPheromones.Obstacles.Systems
             var radius = EntityManager.GetComponentData<Radius>(entityPrefab).Value;
             var colony = EntityManager.Instantiate(entityPrefab);
             EntityManager.SetComponentData(colony, new Translation { Value = new float3(1, 1, 0) * 0.5f });
-            EntityManager.AddComponentData(colony, new NonUniformScale {Value = new float3(1, 1, .1f) * radius / mapSize});
+            EntityManager.AddComponentData(colony, new NonUniformScale {Value = new float3(2, 2, .1f) * radius / mapSize});
+            EntityManager.AddComponentData(colony, new ColonyTag());
 
             Enabled = false;
         }
