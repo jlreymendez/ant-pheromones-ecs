@@ -1,7 +1,7 @@
 ﻿using Unity.Entities;
 using Unity.Mathematics;
 
-namespace AntPheromones.Obstacles
+namespace AntPheromones.Common
 {
     public struct MapBucket : IComponentData
     {

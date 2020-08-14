@@ -1,4 +1,5 @@
-﻿using AntPheromones.Data;
+﻿using AntPheromones.Common;
+using AntPheromones.Data;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
