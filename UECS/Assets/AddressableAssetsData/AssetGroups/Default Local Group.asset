@@ -23,6 +23,12 @@ MonoBehaviour:
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
+  - m_GUID: a8cfcdb26b7441647998b85e7d71c43a
+    m_Address: AntPrefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
   - m_GUID: c3e26dabfd4552a4b8bd1c19232d5e50
     m_Address: SimulationConfig
     m_ReadOnly: 0
