@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 5260997658755699133}
   - component: {fileID: 5260997658755699132}
   - component: {fileID: 5260997658755699135}
+  - component: {fileID: 2112662626552923549}
+  - component: {fileID: -1230399574682413713}
+  - component: {fileID: -4903153268131179008}
   m_Layer: 0
   m_Name: Ant
   m_TagString: Untagged
@@ -81,3 +84,46 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2112662626552923549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5260997658755699134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5120a12165b5462aa6cba5db83e9f8e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Value: 0.07
+--- !u!114 &-1230399574682413713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5260997658755699134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b5e02ace9814f6e9d9bb6fa49bd535c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Max: 0.2
+  Value: 0
+  Target: 0
+--- !u!114 &-4903153268131179008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5260997658755699134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1794a2ddcaaf46baa38d4037433ad629, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Angle: 0
+  Delta: 0
+  WanderSteering: 0.14

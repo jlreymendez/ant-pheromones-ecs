@@ -34,8 +34,15 @@ namespace AntPheromones.Obstacles.Systems
                 var entity = EntityManager.Instantiate(entityPrefab);
                 var position = new float3(random.NextFloat(-5f, 5f) + mapSize * .5f, random.NextFloat(-5f, 5f) + mapSize * .5f, 0);
                 EntityManager.SetComponentData(entity, new Translation { Value = position / mapSize });
-                EntityManager.SetComponentData(entity, new Rotation { Value = quaternion.Euler(0, 0, random.NextFloat(0f, 2f * math.PI))});
                 EntityManager.AddComponentData(entity, new AntTag());
+                // Setup speed in relationship to map size.
+                var speed = EntityManager.GetComponentData<Speed>(entity);
+                speed.Max /= mapSize;
+                EntityManager.SetComponentData(entity, speed);
+                // Setup initial steering.
+                var steering = EntityManager.GetComponentData<Steering>(entity);
+                steering.Angle = random.NextFloat(0f, 2f * math.PI);
+                EntityManager.SetComponentData(entity, steering);
             }
 
             Enabled = false;
