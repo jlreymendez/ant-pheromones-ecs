@@ -14,6 +14,7 @@ namespace AntPheromones.Obstacles.Systems
         static readonly float _obstaclesPerRing = 0.8f;
         static readonly float _obstacleRadius = 2f;
         static readonly int _mapSize = 128;
+        static readonly int _bucketResolution = 64;
         static readonly uint _seed = 4;
 
         protected override async void OnStartRunning()
@@ -51,14 +52,19 @@ namespace AntPheromones.Obstacles.Systems
                         var obstacle = EntityManager.Instantiate(entityPrefab);
                         EntityManager.AddComponentData(obstacle, new Translation { Value = position / _mapSize });
                         EntityManager.AddComponentData(obstacle, new NonUniformScale { Value = scale });
+
+                        EntityManager.AddComponentData(obstacle, new MapBucket
+                        {
+                            Position = new int2(
+                                (int)math.floor((position.x - obstacleRadius) / _mapSize * _bucketResolution),
+                                (int)math.floor((position.y - obstacleRadius) / _mapSize * _bucketResolution)
+                            )
+                        });
                     }
                 }
             }
         }
 
-        protected override void OnUpdate()
-        {
-
-        }
+        protected override void OnUpdate() { }
     }
 }
