@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2112662626552923549}
   - component: {fileID: -1230399574682413713}
   - component: {fileID: -4903153268131179008}
+  - component: {fileID: 563229808087232230}
   m_Layer: 0
   m_Name: Ant
   m_TagString: Untagged
@@ -129,3 +130,16 @@ MonoBehaviour:
   WallSteering: 0
   WanderStrength: 0.14
   WallAvoidanceStrength: 0.12
+--- !u!114 &563229808087232230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5260997658755699134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d8c76cdb6fb4a75a249d26789862090, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Value: 0.3

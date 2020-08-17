@@ -19,5 +19,9 @@ namespace AntPheromones.Data
 
         [Header("Ants")]
         public int AntsCount = 1000;
+
+        [Header("Pheromones")]
+        public float ExcitementPheromoneRatio = 0.3f;
+        public float PheromoneDecayRate = 0.9985f;
     }
 }
