@@ -18,5 +18,14 @@ namespace AntPheromones.Common
                 (int) math.floor(position.y * BucketResolution)
             );
         }
+
+        public AABB GetBucketAABB(int2 bucket)
+        {
+            return (AABB) new MinMaxAABB
+            {
+                Min = new float3(bucket.x, bucket.y, 0) / BucketResolution,
+                Max = new float3(bucket.x + 1, bucket.y + 1, 0) / BucketResolution
+            };
+        }
     }
 }

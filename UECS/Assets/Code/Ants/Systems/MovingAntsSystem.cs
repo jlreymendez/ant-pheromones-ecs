@@ -27,12 +27,12 @@ namespace AntPheromones.Obstacles.Systems
         {
             var bucketData = _bucketData;
             var obstaclesQuery = GetEntityQuery(
-                    ComponentType.ReadOnly<MapBucket>(),
-                    ComponentType.ReadOnly<ObstacleBucket>()
+                    ComponentType.ReadOnly<Translation>(),
+                    ComponentType.ReadOnly<Radius>(),
+                    ComponentType.ReadOnly<ObstacleTag>()
                 );
-            var groupedObstacles = obstaclesQuery.ToEntityArray(Allocator.TempJob);
-            var obstaclesBuffer = GetBufferFromEntity<ObstacleBucket>(true);
-            var mapBuckets = GetComponentDataFromEntity<MapBucket>(true);
+            var obstaclePositions = obstaclesQuery.ToComponentDataArray<Translation>(Allocator.TempJob);
+            var obstacleRadius = obstaclesQuery.ToComponentDataArray<Radius>(Allocator.TempJob);
 
             Entities.WithAll<AntTag>()
                 .ForEach((ref Translation translation, ref Speed speed, ref Steering steering, in Acceleration acceleration, in Rotation rotation) =>
@@ -60,38 +60,33 @@ namespace AntPheromones.Obstacles.Systems
                         translation.Value.y += velocity.y;
                     }
 
-                    PreventCollision(ref velocity, ref translation.Value, groupedObstacles, mapBuckets, obstaclesBuffer, bucketData);
+                    PreventCollision(ref velocity, ref translation.Value, obstaclePositions, obstacleRadius, bucketData);
 
                     steering.Angle = math.atan2(velocity.y, velocity.x);
                 })
-                .WithReadOnly(mapBuckets)
-                .WithReadOnly(obstaclesBuffer)
-                .WithDisposeOnCompletion(groupedObstacles)
+                .WithDisposeOnCompletion(obstacleRadius)
+                .WithDisposeOnCompletion(obstaclePositions)
                 .ScheduleParallel();
         }
 
-        static void PreventCollision(ref float3 velocity, ref float3 position, NativeArray<Entity> groupedObstacles, ComponentDataFromEntity<MapBucket> mapBuckets, BufferFromEntity<ObstacleBucket> obstacleBuffers, BucketData bucketData)
+        static void PreventCollision(ref float3 velocity, ref float3 position, NativeArray<Translation> obstaclePositions, NativeArray<Radius> obstacleRadii, BucketData bucketData)
         {
             var bucket = bucketData.GetBucket(position);
-            for (var i = 0; i < groupedObstacles.Length; i++)
+            var bucketAABB = bucketData.GetBucketAABB(bucket);
+            for (var i = 0; i < obstaclePositions.Length; i++)
             {
-                var obstacleGroup = groupedObstacles[i];
-                if (bucket.Equals(mapBuckets[obstacleGroup].Position) == false) continue;
+                var obstaclePosition = obstaclePositions[i].Value;
+                var obstacleRadius = obstacleRadii[i].Value;
+                var obstacleAABB = new AABB { Center = obstaclePosition, Extents = new float3(1, 1, 0) * obstacleRadius };
+                if (bucketAABB.Overlaps(obstacleAABB) == false) continue;
 
-                var obstacles = obstacleBuffers[obstacleGroup];
-                for (var j = 0; j < obstacles.Length; j++)
+                var difference = position - obstaclePosition;
+                if (math.lengthsq(difference) < math.lengthsq(obstacleRadius))
                 {
-                    var difference = position - obstacles[j].Position;
-                    var radius = obstacles[j].Radius;
-                    if (math.lengthsq(difference) < math.lengthsq(radius))
-                    {
-                        difference = math.normalize(difference);
-                        position = obstacles[j].Position + difference * radius;
-                        velocity -= difference * math.dot(difference, velocity) * 1.5f;
-                    }
+                    difference = math.normalize(difference);
+                    position = obstaclePosition + difference * obstacleRadius;
+                    velocity -= difference * math.dot(difference, velocity) * 1.5f;
                 }
-
-                break;
             }
         }
     }

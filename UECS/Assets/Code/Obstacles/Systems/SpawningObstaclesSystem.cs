@@ -34,7 +34,6 @@ namespace AntPheromones.Obstacles.Systems
             var obstacleRings = config.ObstacleRingsCount;
             var obstaclesPerRing = config.ObstaclesPerRing;
             var mapSize = config.MapSize;
-            var bucketResolution = config.BucketResolution;
 
             var obstacleRadius = EntityManager.GetComponentData<Radius>(entityPrefab).Value;
             var scale = new float3(2, 2, .1f) * obstacleRadius;
@@ -59,14 +58,7 @@ namespace AntPheromones.Obstacles.Systems
                         var obstacle = EntityManager.Instantiate(entityPrefab);
                         EntityManager.AddComponentData(obstacle, new Translation { Value = position / mapSize });
                         EntityManager.AddComponentData(obstacle, new NonUniformScale { Value = scale });
-
-                        EntityManager.AddComponentData(obstacle, new MapBucket
-                        {
-                            Position = new int2(
-                                (int)math.floor((position.x - obstacleRadius) / mapSize * bucketResolution),
-                                (int)math.floor((position.y - obstacleRadius) / mapSize * bucketResolution)
-                            )
-                        });
+                        EntityManager.AddComponentData(obstacle, new ObstacleTag());
 
                         obstacles.Add(obstacle);
 
@@ -84,9 +76,7 @@ namespace AntPheromones.Obstacles.Systems
         {
             var obstacleBucketArchetype = EntityManager.CreateArchetype(ObstaclesBucketArchetype.Components);
             var bucketResolution = config.BucketResolution;
-            var mapSize = config.MapSize;
             var obstaclesInBucket = new NativeList<ObstacleBucket>(2, Allocator.Temp);
-            var bucketData = new BucketData(bucketResolution);
             var bucketRatio = 1f / bucketResolution;
 
             int x, y;
