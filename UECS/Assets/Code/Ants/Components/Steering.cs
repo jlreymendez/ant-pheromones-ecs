@@ -8,6 +8,8 @@ namespace AntPheromones.Ants
     {
         [HideInInspector] public float Angle;
         [HideInInspector] public float Delta;
-        public float WanderSteering;
+        [HideInInspector] public float WallSteering;
+        public float WanderStrength;
+        public float WallAvoidanceStrength;
     }
 }

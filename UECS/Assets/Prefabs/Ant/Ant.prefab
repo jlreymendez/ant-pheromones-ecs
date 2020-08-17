@@ -126,4 +126,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Angle: 0
   Delta: 0
-  WanderSteering: 0.14
+  WallSteering: 0
+  WanderStrength: 0.14
+  WallAvoidanceStrength: 0.12
