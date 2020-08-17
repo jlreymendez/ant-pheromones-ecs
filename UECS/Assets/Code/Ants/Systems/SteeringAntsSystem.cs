@@ -28,15 +28,20 @@ namespace AntPheromones.Obstacles.Systems
         protected override void OnUpdate()
         {
             // todo: since obstacles are static we could create a datastructure at the beginning of runtime to simplify this calculation.
-            var obstacleQuery = GetEntityQuery(ComponentType.ReadOnly<ObstacleBucket>(), ComponentType.ReadOnly<MapBucket>());
-            var obstacleBuckets = obstacleQuery.ToComponentDataArray<MapBucket>(Allocator.TempJob);
+            var obstacleQuery = GetEntityQuery(
+                ComponentType.ReadOnly<ObstacleTag>(),
+                ComponentType.ReadOnly<Translation>(),
+                ComponentType.ReadOnly<Radius>()
+            );
+            var obstacleRadii = obstacleQuery.ToComponentDataArray<Radius>(Allocator.TempJob);
+            var obstaclePositions = obstacleQuery.ToComponentDataArray<Translation>(Allocator.TempJob);
 
             var bucketData = _bucketData;
             var random = new Random(_random.NextUInt());
             Entities.WithAll<AntTag>()
                 .ForEach((ref Steering steering, ref Rotation rotation, in Translation position) =>
                 {
-                    WallSteering(ref steering, position, obstacleBuckets, bucketData);
+                    WallSteering(ref steering, position, obstaclePositions, obstacleRadii, bucketData);
 
                     steering.Delta =
                         steering.WallSteering * steering.WallAvoidanceStrength +
@@ -44,11 +49,13 @@ namespace AntPheromones.Obstacles.Systems
 
                     steering.Angle += steering.Delta;
                     rotation.Value = quaternion.Euler(0, 0, steering.Angle);
-                }).WithDisposeOnCompletion(obstacleBuckets)
+                })
+                    .WithDisposeOnCompletion(obstacleRadii)
+                    .WithDisposeOnCompletion(obstaclePositions)
                     .ScheduleParallel();
         }
 
-        static void WallSteering(ref Steering steering, Translation position, NativeArray<MapBucket> obstacles, BucketData bucketData)
+        static void WallSteering(ref Steering steering, Translation position, NativeArray<Translation> obstaclePositions, NativeArray<Radius> obstacleRadii, BucketData bucketData)
         {
             steering.WallSteering = 0;
             var wallCheckDistance = 1f / bucketData.BucketResolution;
@@ -57,10 +64,17 @@ namespace AntPheromones.Obstacles.Systems
                 float angle = steering.Angle + i * math.PI *.25f;
                 position.Value += math.mul(quaternion.Euler(0, 0, angle), new float3(wallCheckDistance, 0, 0));
                 var bucket = bucketData.GetBucket(position.Value);
+                var bucketAABB = bucketData.GetBucketAABB(bucket);
 
-                for (var j = 0; j < obstacles.Length; j++)
+                for (var j = 0; j < obstaclePositions.Length; j++)
                 {
-                    if (obstacles[j].Position.Equals(bucket))
+                    var obstacleAABB = new AABB
+                    {
+                        Center = obstaclePositions[j].Value,
+                        Extents = new float3(1, 1, 0) * obstacleRadii[j].Value
+                    };
+
+                    if (bucketAABB.Overlaps(obstacleAABB))
                     {
                         steering.WallSteering -= i;
                         break;
