@@ -15,6 +15,7 @@ namespace AntPheromones.Obstacles.Systems
     {
         Random _random;
         BucketData _bucketData;
+        EntityQuery _obstacleQuery;
 
         protected override async void OnCreate()
         {
@@ -23,18 +24,18 @@ namespace AntPheromones.Obstacles.Systems
             var config = configLoader.Result;
             _random = new Random(config.Seed);
             _bucketData = new BucketData(config.BucketResolution);
-        }
 
-        protected override void OnUpdate()
-        {
-            // todo: since obstacles are static we could create a datastructure at the beginning of runtime to simplify this calculation.
-            var obstacleQuery = GetEntityQuery(
+            _obstacleQuery = GetEntityQuery(
                 ComponentType.ReadOnly<ObstacleTag>(),
                 ComponentType.ReadOnly<Translation>(),
                 ComponentType.ReadOnly<Radius>()
             );
-            var obstacleRadii = obstacleQuery.ToComponentDataArray<Radius>(Allocator.TempJob);
-            var obstaclePositions = obstacleQuery.ToComponentDataArray<Translation>(Allocator.TempJob);
+        }
+
+        protected override void OnUpdate()
+        {
+            var obstacleRadii = _obstacleQuery.ToComponentDataArray<Radius>(Allocator.TempJob);
+            var obstaclePositions = _obstacleQuery.ToComponentDataArray<Translation>(Allocator.TempJob);
 
             var bucketData = _bucketData;
             var random = new Random(_random.NextUInt());

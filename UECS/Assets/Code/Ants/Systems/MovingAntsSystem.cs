@@ -14,6 +14,7 @@ namespace AntPheromones.Obstacles.Systems
     public class MovingAntsSystem : SystemBase
     {
         BucketData _bucketData;
+        EntityQuery _obstaclesQuery;
 
         protected override async void OnCreate()
         {
@@ -21,18 +22,19 @@ namespace AntPheromones.Obstacles.Systems
             await configLoader.Task;
             var config = configLoader.Result;
             _bucketData = new BucketData(config.BucketResolution);
+
+            _obstaclesQuery = GetEntityQuery(
+                ComponentType.ReadOnly<Translation>(),
+                ComponentType.ReadOnly<Radius>(),
+                ComponentType.ReadOnly<ObstacleTag>()
+            );
         }
 
         protected override void OnUpdate()
         {
             var bucketData = _bucketData;
-            var obstaclesQuery = GetEntityQuery(
-                    ComponentType.ReadOnly<Translation>(),
-                    ComponentType.ReadOnly<Radius>(),
-                    ComponentType.ReadOnly<ObstacleTag>()
-                );
-            var obstaclePositions = obstaclesQuery.ToComponentDataArray<Translation>(Allocator.TempJob);
-            var obstacleRadius = obstaclesQuery.ToComponentDataArray<Radius>(Allocator.TempJob);
+            var obstaclePositions = _obstaclesQuery.ToComponentDataArray<Translation>(Allocator.TempJob);
+            var obstacleRadius = _obstaclesQuery.ToComponentDataArray<Radius>(Allocator.TempJob);
 
             Entities.WithAll<AntTag>()
                 .ForEach((ref Translation translation, ref Speed speed, ref Steering steering, in Acceleration acceleration, in Rotation rotation) =>
