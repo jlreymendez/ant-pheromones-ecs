@@ -41,6 +41,12 @@ MonoBehaviour:
     m_SerializedLabels: []
     m_MainAsset: {fileID: 0}
     m_TargetAsset: {fileID: 0}
+  - m_GUID: d4e6fbbefe2f95b42924b7a273bd273d
+    m_Address: PheromoneRendererPrefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
   - m_GUID: ebe375d13938dde489abb985f8e43cc3
     m_Address: ColonyPrefab
     m_ReadOnly: 0
