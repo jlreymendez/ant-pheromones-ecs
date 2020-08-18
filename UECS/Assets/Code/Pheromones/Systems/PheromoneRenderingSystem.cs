@@ -3,6 +3,7 @@ using AntPheromones.Data;
 using AntPheromones.Pheromones;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -29,19 +30,17 @@ namespace Code.Pheromones
 
         protected override void OnUpdate()
         {
-            var texturePixels = new NativeArray<Color>(_mapSize * _mapSize, Allocator.TempJob);
+            var texturePixels = _pheromoneTexture.GetRawTextureData<Color32>();
             Entities.ForEach((int entityInQueryIndex, in Strength strength) =>
                 {
-                    texturePixels[entityInQueryIndex] = new Color(strength.Value, 0, 0);
+                    texturePixels[entityInQueryIndex] = new Color32((byte)math.ceil(strength.Value * 255), 0, 0, 0);
                 })
                 .WithAll<PheromoneTag>()
                 .ScheduleParallel();
 
             Dependency.Complete();
 
-            _pheromoneTexture.SetPixels(texturePixels.ToArray());
-            _pheromoneTexture.Apply();
-            texturePixels.Dispose();
+            _pheromoneTexture.Apply(true);
         }
 
         protected override void OnDestroy()
