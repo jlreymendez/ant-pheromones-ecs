@@ -40,7 +40,7 @@ namespace Code.Pheromones
             Dependency.Complete();
 
             _pheromoneTexture.SetPixels(texturePixels.ToArray());
-            _pheromoneTexture.Apply(false);
+            _pheromoneTexture.Apply();
             texturePixels.Dispose();
         }
 
