@@ -46,7 +46,7 @@ namespace Code.Pheromones
 
         protected override void OnDestroy()
         {
-            if (_pheromoneRenderer.gameObject)
+            if (_pheromoneRenderer != null)
             {
                 GameObject.Destroy(_pheromoneRenderer.gameObject);
             }
