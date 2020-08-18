@@ -10,7 +10,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace AntPheromones.Obstacles.Systems
 {
-    public class SpawningAntsSystem : SystemBase
+    public class AntsSpawningSystem : SystemBase
     {
         protected override async void OnStartRunning()
         {
@@ -35,6 +35,8 @@ namespace AntPheromones.Obstacles.Systems
                 var position = new float3(random.NextFloat(-5f, 5f) + mapSize * .5f, random.NextFloat(-5f, 5f) + mapSize * .5f, 0);
                 EntityManager.SetComponentData(entity, new Translation { Value = position / mapSize });
                 EntityManager.AddComponentData(entity, new AntTag());
+                EntityManager.AddComponentData(entity, new Resource());
+                EntityManager.AddComponentData(entity, new Target());
                 // Setup speed in relationship to map size.
                 var speed = EntityManager.GetComponentData<Speed>(entity);
                 speed.Max /= mapSize;
