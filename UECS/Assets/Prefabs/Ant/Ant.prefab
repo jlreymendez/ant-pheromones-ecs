@@ -136,6 +136,9 @@ MonoBehaviour:
   PheromoneSteering:
     Value: 0
     Strength: 0.015
+  GoalSteering:
+    Value: 0
+    Strength: 0
 --- !u!114 &563229808087232230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,3 +152,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Value: 0.3
+  CarryingValue: 1
+  EmptyValue: 0.1

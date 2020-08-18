@@ -1,17 +1,19 @@
 ﻿using AntPheromones.Ants;
 using AntPheromones.Common;
 using AntPheromones.Data;
+using AntPheromones.Pheromones;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine.AddressableAssets;
 
-namespace AntPheromones.Pheromones
+namespace Code.Ants.Systems
 {
     [UpdateInGroup(typeof(LateSimulationSystemGroup))]
+    [UpdateAfter(typeof(AntsGatheringSystem))]
     [UpdateAfter(typeof(PheromoneDecaySystem))]
-    public class PheromoneDroppingSystem : SystemBase
+    public class AntsPheromoneDroppingSystem : SystemBase
     {
         BucketData _bucketData;
         EntityQuery _pheromonesQuery;
@@ -33,8 +35,10 @@ namespace AntPheromones.Pheromones
             var dt = Time.fixedDeltaTime;
             var excitementPheromoneRatio = _excitementPheromoneRatio;
 
-            Entities.ForEach((in Translation translation, in Excitement excitement) =>
+            Entities.ForEach((ref Excitement excitement, in Translation translation, in Resource resource) =>
                 {
+                    excitement.Value = resource.Value ? excitement.CarryingValue : excitement.EmptyValue;
+
                     var antBucket = bucketData.GetBucket(translation.Value);
                     var bucketIndex = antBucket.x + antBucket.y * bucketData.BucketResolution;
                     if (bucketIndex < 0 || bucketIndex >= pheromonesStrength.Length) return;
