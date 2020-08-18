@@ -29,12 +29,14 @@ namespace AntPheromones.Obstacles.Systems
             var mapSize = config.MapSize;
             var random = new Random(config.Seed);
 
-            var radius = EntityManager.GetComponentData<Radius>(entityPrefab).Value;
+            var radius = EntityManager.GetComponentData<Radius>(entityPrefab);
+            radius.Value /= mapSize;
             var entity = EntityManager.Instantiate(entityPrefab);
             var angle = random.NextFloat(0f, 1f) * 2f * math.PI;
             var position = new float3(.5f + math.cos(angle) * .475f, .5f + math.sin(angle) * .475f, 0);
             EntityManager.SetComponentData(entity, new Translation { Value = position });
-            EntityManager.AddComponentData(entity, new NonUniformScale {Value = new float3(2, 2, .1f) * radius / mapSize});
+            EntityManager.SetComponentData(entity, radius);
+            EntityManager.AddComponentData(entity, new NonUniformScale {Value = new float3(2, 2, .1f) * radius.Value });
             EntityManager.AddComponentData(entity, new FoodTag());
 
             Enabled = false;
