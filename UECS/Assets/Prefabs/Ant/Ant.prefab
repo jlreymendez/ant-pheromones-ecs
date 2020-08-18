@@ -127,9 +127,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Angle: 0
   Delta: 0
-  WallSteering: 0
-  WanderStrength: 0.14
-  WallAvoidanceStrength: 0.12
+  WanderSteering:
+    Value: 0
+    Strength: 0.14
+  WallSteering:
+    Value: 0
+    Strength: 0.12
+  PheromoneSteering:
+    Value: 0
+    Strength: 0.015
 --- !u!114 &563229808087232230
 MonoBehaviour:
   m_ObjectHideFlags: 0
