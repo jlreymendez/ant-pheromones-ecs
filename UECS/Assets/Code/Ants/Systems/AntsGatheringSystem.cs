@@ -1,13 +1,11 @@
-﻿using AntPheromones.Ants;
-using AntPheromones.Common;
-using AntPheromones.Data;
+﻿using AntPheromones.Common;
 using AntPheromones.Food;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 
-namespace Code.Ants.Systems
+namespace AntPheromones.Ants
 {
     [UpdateInGroup(typeof(LateSimulationSystemGroup))]
     public class AntsGatheringSystem : SystemBase

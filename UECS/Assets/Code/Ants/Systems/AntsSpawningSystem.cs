@@ -1,5 +1,4 @@
-﻿using AntPheromones.Ants;
-using AntPheromones.Data;
+﻿using AntPheromones.Data;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
@@ -8,7 +7,7 @@ using UnityEngine.AddressableAssets;
 using Random = Unity.Mathematics.Random;
 using Task = System.Threading.Tasks.Task;
 
-namespace AntPheromones.Obstacles.Systems
+namespace AntPheromones.Ants
 {
     public class AntsSpawningSystem : SystemBase
     {

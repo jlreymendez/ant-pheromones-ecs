@@ -12,7 +12,7 @@ using Random = Unity.Mathematics.Random;
 namespace AntPheromones.Ants
 {
     [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
-    public class SteeringAntsSystem : SystemBase
+    public class AntsSteeringSystem : SystemBase
     {
         Random _random;
         BucketData _wallBucketData;

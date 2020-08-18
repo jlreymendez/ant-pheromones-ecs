@@ -1,5 +1,4 @@
-﻿using AntPheromones.Ants;
-using AntPheromones.Common;
+﻿using AntPheromones.Common;
 using AntPheromones.Data;
 using AntPheromones.Pheromones;
 using Unity.Collections;
@@ -8,7 +7,7 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine.AddressableAssets;
 
-namespace Code.Ants.Systems
+namespace AntPheromones.Ants
 {
     [UpdateInGroup(typeof(LateSimulationSystemGroup))]
     [UpdateAfter(typeof(AntsGatheringSystem))]

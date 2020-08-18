@@ -1,17 +1,17 @@
-﻿using AntPheromones.Ants;
-using AntPheromones.Common;
+﻿using AntPheromones.Common;
 using AntPheromones.Data;
+using AntPheromones.Obstacles;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine.AddressableAssets;
 
-namespace AntPheromones.Obstacles.Systems
+namespace AntPheromones.Ants
 {
     [UpdateInGroup(typeof(FixedStepSimulationSystemGroup))]
-    [UpdateAfter(typeof(SteeringAntsSystem))]
-    public class MovingAntsSystem : SystemBase
+    [UpdateAfter(typeof(AntsSteeringSystem))]
+    public class AntsMovingSystem : SystemBase
     {
         BucketData _bucketData;
         EntityQuery _obstaclesQuery;
