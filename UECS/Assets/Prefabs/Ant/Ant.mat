@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Ant
-  m_Shader: {fileID: -6465566751694194690, guid: cc52299fefeb1c449b332c5e5c3cd033,
+  m_Shader: {fileID: -6465566751694194690, guid: 2bd2afba1a9320749a0ef2a5d22821c5,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
