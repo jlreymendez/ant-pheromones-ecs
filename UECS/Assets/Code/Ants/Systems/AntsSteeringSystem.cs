@@ -58,10 +58,17 @@ namespace AntPheromones.Ants
                     WallSteering(ref steering.WallSteering, steering.Angle, position.Value, obstaclePositions, obstacleRadii, wallBucketData);
                     steering.WanderSteering.Value = random.NextFloat(-1, 1);
 
-                    steering.Delta =
-                        steering.WanderSteering.Force + steering.WallSteering.Force + steering.PheromoneSteering.Force;
+                    steering.Delta = steering.WanderSteering.Force + steering.WallSteering.Force
+                                    + steering.PheromoneSteering.Force + steering.ColonyPullSteering.Force;
 
                     steering.Angle += steering.Delta;
+
+                    // Keep angle in normalized ranges.
+                    if (math.abs(steering.Angle) > math.PI)
+                    {
+                        steering.Angle -= math.sign(steering.Angle) * math.PI * 2;
+                    }
+
                     rotation.Value = quaternion.Euler(0, 0, steering.Angle);
                 })
                     .WithDisposeOnCompletion(obstacleRadii)

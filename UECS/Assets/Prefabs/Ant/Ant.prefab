@@ -95,8 +95,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5120a12165b5462aa6cba5db83e9f8e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   Value: 0.07
 --- !u!114 &-1230399574682413713
 MonoBehaviour:
@@ -108,8 +108,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b5e02ace9814f6e9d9bb6fa49bd535c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   Max: 0.2
   Value: 0
   Target: 0
@@ -123,8 +123,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1794a2ddcaaf46baa38d4037433ad629, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   Angle: 0
   Delta: 0
   WanderSteering:
@@ -136,9 +136,9 @@ MonoBehaviour:
   PheromoneSteering:
     Value: 0
     Strength: 0.015
-  GoalSteering:
+  ColonyPullSteering:
     Value: 0
-    Strength: 0
+    Strength: 0.04
 --- !u!114 &563229808087232230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,8 +149,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d8c76cdb6fb4a75a249d26789862090, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   Value: 0.3
   CarryingValue: 1
   EmptyValue: 0.1
