@@ -1,4 +1,7 @@
-﻿using Unity.Entities;
+﻿using AntPheromones.Ants;
+using AntPheromones.Obstacles.Systems;
+using Code.Pheromones;
+using Unity.Entities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UInput = UnityEngine.Input;
@@ -24,17 +27,15 @@ namespace AntPheromones.Input
                 }
             }
 
-            //
-            // todo: fix startup catchup.
-            // if (UInput.GetKeyUp(KeyCode.R))
-            // {
-            //     World.DisposeAllWorlds();
-            //     var sceneLoader = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
-            //     sceneLoader.completed += operation =>
-            //     {
-            //         DefaultWorldInitialization.Initialize("Default World", false);
-            //     };
-            // }
+            if (UInput.GetKeyUp(KeyCode.R))
+            {
+                EntityManager.DestroyEntity(EntityManager.GetAllEntities());
+                World.GetOrCreateSystem<SpawningColonySystem>().Enabled = true;
+                World.GetOrCreateSystem<SpawningFoodSystem>().Enabled = true;
+                World.GetOrCreateSystem<SpawningObstaclesSystem>().Enabled = true;
+                World.GetOrCreateSystem<AntsSpawningSystem>().Enabled = true;
+                World.GetOrCreateSystem<PheromoneSpawningSystem>().Enabled = true;
+            }
 
             if (UInput.GetKeyUp(KeyCode.H))
             {
