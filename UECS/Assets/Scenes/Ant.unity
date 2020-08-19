@@ -404,7 +404,7 @@ GameObject:
   - component: {fileID: 7434986925144822749}
   m_Layer: 5
   m_Name: Instructions Canvas
-  m_TagString: Untagged
+  m_TagString: UI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
