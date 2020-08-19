@@ -59,7 +59,8 @@ namespace AntPheromones.Ants
                     steering.WanderSteering.Value = random.NextFloat(-1, 1);
 
                     steering.Delta = steering.WanderSteering.Force + steering.WallSteering.Force
-                                    + steering.PheromoneSteering.Force + steering.ColonyPullSteering.Force;
+                                    + steering.PheromoneSteering.Force + steering.ColonyPullSteering.Force
+                                    + steering.GoalSteering.Force;
 
                     steering.Angle += steering.Delta;
 

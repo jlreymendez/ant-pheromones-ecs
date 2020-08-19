@@ -12,6 +12,7 @@ namespace AntPheromones.Ants
         public SteeringForce WallSteering;
         public SteeringForce PheromoneSteering;
         public SteeringForce ColonyPullSteering;
+        public SteeringForce GoalSteering;
     }
 
     [System.Serializable]
