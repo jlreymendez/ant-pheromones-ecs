@@ -19,6 +19,8 @@ namespace AntPheromones.Data
 
         [Header("Ants")]
         public int AntsCount = 1000;
+        public Color AntExcitedColor;
+        public Color AntUnexcitedColor;
 
         [Header("Pheromones")]
         public float ExcitementPheromoneRatio = 0.3f;

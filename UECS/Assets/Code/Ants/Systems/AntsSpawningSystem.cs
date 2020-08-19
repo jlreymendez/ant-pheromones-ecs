@@ -1,6 +1,7 @@
 ﻿using AntPheromones.Data;
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.Rendering;
 using Unity.Transforms;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -36,6 +37,7 @@ namespace AntPheromones.Ants
                 EntityManager.AddComponentData(entity, new AntTag());
                 EntityManager.AddComponentData(entity, new Resource());
                 EntityManager.AddComponentData(entity, new Target());
+                EntityManager.AddComponentData(entity, new MaterialColor());
                 // Setup speed in relationship to map size.
                 var speed = EntityManager.GetComponentData<Speed>(entity);
                 speed.Max /= mapSize;
