@@ -27,7 +27,7 @@ namespace AntPheromones.Ants
                 var colony = GetClosestColonyPosition(translation.Value, colonyPositions);
                 var forward = math.normalizesafe(math.mul(rotation.Value, new float3(1, 0, 0)));
                 var right = math.mul(clockwiseRotation, forward);
-                var direction = colony - translation.Value * (resource.Value ? -1 : 1);
+                var direction = (colony - translation.Value) * (resource.Value ? -1 : 1);
                 var dot = math.dot(math.normalizesafe(direction), right);
                 steering.ColonyPullSteering.Value = math.sign(dot) * (1f - math.abs(dot)) * (1f - math.clamp(math.length(direction), 0, 1));
             })
