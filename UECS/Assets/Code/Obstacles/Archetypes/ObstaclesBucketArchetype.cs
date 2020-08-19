@@ -9,7 +9,6 @@ namespace AntPheromones.Obstacles
         {
             get => new ComponentType[]
             {
-                ComponentType.ReadWrite<MapBucket>(),
                 ComponentType.ReadWrite<ObstacleBucket>(),
             };
         }

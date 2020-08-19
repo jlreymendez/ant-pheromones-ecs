@@ -20,10 +20,12 @@ namespace AntPheromones.Obstacles.Systems
             var obstacleLoader = Addressables.LoadAssetAsync<GameObject>("ObstaclePrefab");
             await Task.WhenAll(configLoader.Task, obstacleLoader.Task);
 
-            CreateObstacleEntities(obstacleLoader.Result, configLoader.Result);
+            var obstacles = new NativeList<Entity>(Allocator.Temp);
+            CreateObstacleEntities(obstacleLoader.Result, configLoader.Result, obstacles);
+            CreateObstacleBuckets(obstacles, configLoader.Result);
         }
 
-        void CreateObstacleEntities(GameObject obstaclePrefab, SimulationConfig config)
+        void CreateObstacleEntities(GameObject obstaclePrefab, SimulationConfig config, NativeList<Entity> obstacles)
         {
             var gameConversionSettings = GameObjectConversionSettings.FromWorld(World, null);
             var entityPrefab = GameObjectConversionUtility.ConvertGameObjectHierarchy(obstaclePrefab, gameConversionSettings);
@@ -58,6 +60,8 @@ namespace AntPheromones.Obstacles.Systems
                         EntityManager.AddComponentData(obstacle, new NonUniformScale { Value = scale });
                         EntityManager.AddComponentData(obstacle, new ObstacleTag());
 
+                        obstacles.Add(obstacle);
+
                     #if UNITY_EDITOR
                         EntityManager.SetName(obstacle, $"Obstacle:{obstacle.Index}");
                     #endif
@@ -66,6 +70,53 @@ namespace AntPheromones.Obstacles.Systems
             }
 
             Enabled = false;
+        }
+
+        void CreateObstacleBuckets(NativeList<Entity> obstacles, SimulationConfig config)
+        {
+            var obstacleBucketArchetype = EntityManager.CreateArchetype(ObstaclesBucketArchetype.Components);
+            var bucketResolution = config.BucketResolution;
+            var obstaclesInBucket = false;
+            var bucketRatio = 1f / bucketResolution;
+
+            int x, y;
+            for (x = 0; x < bucketResolution; x++)
+            {
+                for (y = 0; y < bucketResolution; y++)
+                {
+                    var bucketPosition = new int2(x, y);
+                    var bucketAABB = (AABB)new MinMaxAABB
+                    {
+                        Max = new float3( (x + 1) * bucketRatio, (y + 1) * bucketRatio, 0),
+                        Min = new float3( x * bucketRatio, y * bucketRatio, 0),
+                    };
+                    obstaclesInBucket = false;
+
+                    // Find all obstacles in bucket.
+                    for (var i = 0; i < obstacles.Length; i++)
+                    {
+                        var position = EntityManager.GetComponentData<Translation>(obstacles[i]).Value;
+                        var radius = EntityManager.GetComponentData<Radius>(obstacles[i]).Value;
+                        var obstacleAABB = new AABB { Center = position, Extents = new float3(1f, 1f, 0) * radius };
+
+                        // Check all directions to see if buck
+                        if (bucketAABB.Overlaps(obstacleAABB) == false) continue;
+
+                        obstaclesInBucket = true;
+                        break;
+                    }
+
+                    // Create obstacle buckets.
+                    var bucket = EntityManager.CreateEntity(obstacleBucketArchetype);
+                    EntityManager.SetComponentData(bucket,
+                        new ObstacleBucket { HasWalls = obstaclesInBucket, Position = bucketPosition }
+                    );
+
+                #if UNITY_EDITOR
+                    EntityManager.SetName(bucket, $"ObstacleBucket:{bucket.Index}");
+                #endif
+                }
+            }
         }
 
         protected override void OnUpdate() { }
